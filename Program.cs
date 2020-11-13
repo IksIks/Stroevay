@@ -83,59 +83,51 @@ namespace Сторевая
             double[] values = { 5, 4, 3, 2 };
             int next = 0;
             if ((score == 5) || (score == 4))           //
-                for (int i = 0; i < values.Length - 1; i++)  //фильтр генерации оценок только из 5 4 3. Length -1 уберает
+                for (int i = 0; i < values.Length - 2; i++)  //фильтр генерации оценок только из 5 4 3. Length -1 уберает
                                                              //2, чтоб не было оценок вида 5 5 5 2 5 итог 4
                 {                                           //
-                    for (int j = 0; j < values.Length - 1; j++)
+                    for (int j = 0; j < values.Length - 2; j++)
                     {
-                        for (int k = 0; k < values.Length - 1; k++)
-                        {
-                            
-                                    for (int l = 0; l < values.Length - 1; l++)
-                                    {
-                                        for (int m = 0; m < values.Length - 1; m++)
-                                        {
-                                            double average = (values[i] + values[j] + values[k] + values[l] + values[m]) / 5;
-                                            double averageMath = Math.Round((values[i] + values[j] + values[k] + values[l] + values[m]) / 5);
-                                            if (((averageMath - average) <= 0.3) && (averageMath == score))
-                                            {
-                                                answers[next] = ($"{values[i]} {values[j]} {values[k]} {values[l]} {values[m]}").ToString();
-                                                //Console.WriteLine($"{next}\t{answers[next]}");
-                                                next++;
-                                            }
-                                        }
-                                    }
-                                   
-
-                            
+                        for (int k = 0; k < values.Length - 2; k++)
+                        {                            
+                             for (int l = 0; l < values.Length - 2; l++)
+                             {
+                                 for (int m = 0; m < values.Length - 2; m++)
+                                 {
+                                     double average = (values[i] + values[j] + values[k] + values[l] + values[m]) / 5;
+                                     double averageMath = Math.Round((values[i] + values[j] + values[k] + values[l] + values[m]) / 5);
+                                     if (((averageMath - average) <= 0.3) && (averageMath == score))
+                                     {
+                                        answers[next] = ($"{values[i]} {values[j]} {values[k]} {values[l]} {values[m]}").ToString();
+                                        //Console.WriteLine($"{next}\t{answers[next]}");
+                                        next++;
+                                     }
+                                 }
+                             }    
                         }
                     }
                 }
             else
             {
-                for (int i = 1; i < values.Length; i++)
+                for (int i = 0; i < values.Length; i++)
                 {
-                    for (int j = 1; j < values.Length; j++)
+                    for (int j = 0; j < values.Length; j++)
                     {
-                        for (int k = 1; k < values.Length; k++)
+                        for (int k = 0; k < values.Length; k++)
                         {
-                            
-                                    for (int l = 1; l < values.Length; l++)
-                                    {
-                                        for (int m = 1; m < values.Length; m++)
-                                        {
-                                            double average = (values[i] + values[j] + values[k] + values[l] + values[m]) / 5;
-                                            double averageMath = Math.Round((values[i] + values[j] + values[k] + values[l] + values[m]) / 5);
-                                            if (((averageMath - average) <= 0.3) && (averageMath == score))
-                                            {
-                                                answers[next] = ($"{values[i]} {values[j]} {values[k]} {values[l]} {values[m]}").ToString();
-                                                next++;
-                                            }
-                                        }
-                                    }
-                                   
-
-                            }
+                             for (int l = 0; l < values.Length; l++)
+                             {
+                                  for (int m = 0; m < values.Length; m++)
+                                  {
+                                      double average = (values[i] + values[j] + values[k] + values[l] + values[m]) / 5;
+                                      double averageMath = Math.Round((values[i] + values[j] + values[k] + values[l] + values[m]) / 5);
+                                      if (((averageMath - average) <= 0.3) && (averageMath == score))
+                                      {
+                                         answers[next] = ($"{values[i]} {values[j]} {values[k]} {values[l]} {values[m]}").ToString();
+                                         next++;
+                                      }
+                                  }
+                             }
                         }
                     }
                 }
@@ -154,7 +146,7 @@ namespace Сторевая
             int[] four = fileScore[1].Split(pattern, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
             int[] three = fileScore[2].Split(pattern, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
             int[] two = fileScore[3].Split(pattern, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
-            // vip - количество контрактников которым нельзя ставить "2"            
+            //vip - количество контрактников которым нельзя ставить "2"            
             int vip = int.Parse(fileScore[4]);
             Random r = new Random();
 
@@ -163,94 +155,74 @@ namespace Сторевая
             int[] temp = new int[fio.Length];
             int[] overallScore = fillingArray(five, fillingArray(four, fillingArray(three, fillingArray(two, temp, vip), vip)));
 
+            string[] appearance = new string[fio.Length];
+            
             string[] ustavScore = new string[fio.Length];
             for (int i = 0; i < ustavScore.Length; i++)
             {
                 if (overallScore[i] == 2)
+                {
                     ustavScore[i] = "неуд";
-                else ustavScore[i] = "уд";
+                    appearance[i] = "уд";
+                }
+                else
+                {
+                    ustavScore[i] = "уд";
+                    appearance[i] = "уд";
+                }
             }
+            int[] elevenArray = new int[fio.Length];    //массив необходимый для общего числа столбцов
+            Array.Copy(overallScore, elevenArray, fio.Length);
 
-            int[] practicalScore = new int[fio.Length];
-            Array.Copy(overallScore, practicalScore, fio.Length);
+            string[] score5 = generetanigPrakticalAnswers(5);
+            string[] score4 = generetanigPrakticalAnswers(4);
+            string[] score3 = generetanigPrakticalAnswers(3);
+            string[] score2 = generetanigPrakticalAnswers(2);
 
-            string[] score5 = generetanigPrakticalAnswers(5, 3);
-            string[] score4 = generetanigPrakticalAnswers(4, 3);
-            string[] score3 = generetanigPrakticalAnswers(3, 3);
-            string[] score2 = generetanigPrakticalAnswers(2, 3);
-
-            string[] practicalAnswer = new string[fio.Length];
-            for (int i = 0; i < practicalAnswer.Length; i++)
+            string[] withWeapon = new string[fio.Length];           
+            for (int i = 0; i < withWeapon.Length; i++)
             {
-                switch (practicalScore[i])
+                switch (overallScore[i])
                 {
                     case 5:
                         random = r.Next(0, score5.Length);
-                        practicalAnswer[i] = score5[random];
+                        withWeapon[i] = score5[random];
                         break;
                     case 4:
                         random = r.Next(0, score4.Length);
-                        practicalAnswer[i] = score4[random];
+                        withWeapon[i] = score4[random];
                         break;
                     case 3:
                         random = r.Next(0, score3.Length);
-                        practicalAnswer[i] = score3[random];
+                        withWeapon[i] = score3[random];
                         break;
                     case 2:
                         random = r.Next(0, score2.Length);
-                        practicalAnswer[i] = score2[random];
+                        withWeapon[i] = score2[random];
                         break;
                 }
-            }
+            }          
 
-            int[] theoryScore = new int[fio.Length];
-            for (int j = 0; j < theoryScore.Length; j++)
+            string[] withoutWeapon = new string[fio.Length];
+            for (int i = 0; i < withoutWeapon.Length; i++)
             {
-                switch (practicalScore[j])
-                {
-                    case 5:
-                        random = r.Next(4, 6);
-                        theoryScore[j] = random;
-                        break;
-                    case 4:
-                        random = r.Next(4, 6);      // изменил 3 на 4 чтоб было поменьше оценок 54245
-                        theoryScore[j] = random;
-                        break;
-                    case 3:
-                        random = r.Next(3, 5);
-                        theoryScore[j] = random;
-                        break;
-                    case 2:
-                        random = r.Next(2, 4);
-                        theoryScore[j] = random;
-                        break;
-                }
-            }
-            score5 = generetanigPrakticalAnswers(5, 5);
-            score4 = generetanigPrakticalAnswers(4, 5);
-            score3 = generetanigPrakticalAnswers(3, 5);
-            score2 = generetanigPrakticalAnswers(2, 5);
-
-            string[] theoryAnswer = new string[fio.Length];
-            for (int i = 0; i < theoryAnswer.Length; i++)
-            {
-                switch (theoryScore[i])
+                switch (overallScore[i])
                 {
                     case 5:
                         random = r.Next(0, score5.Length);
-                        theoryAnswer[i] = score5[random];
+                        withoutWeapon[i] = score5[random];
                         break;
                     case 4:
                         random = r.Next(0, score4.Length);
-                        theoryAnswer[i] = score4[random];
+                        withoutWeapon[i] = score4[random];
                         break;
                     case 3:
                         random = r.Next(0, score3.Length);
-                        theoryAnswer[i] = score3[random];
+                        withoutWeapon[i] = score3[random];
                         break;
                     case 2:
                         random = r.Next(0, score2.Length);
-                        theoryAnswer[i] = score2[random];
+                        withoutWeapon[i] = score2[random];
                         break;
                 }
             }
@@ -259,12 +231,11 @@ namespace Сторевая
             //Console.WriteLine("ФИО                   итог за теорию    оценки за практику    итог практика   итоговая");
             using (StreamWriter end = new StreamWriter("ведомость.txt"))
             {
-                end.WriteLine("Звание\tФамилия\tТеоритическая подготовка\tОценка\tПрактическая подготовка\tОценка\t" +
-                    "Строевой устав\tОбщая оценка");
+                end.WriteLine("Звание\tФамилия\tВнешний вид\tБез оружия\tС оружием\tОценка за устав\tОбщая оценка");
                 for (int i = 0; i < fio.Length; i++)
                 {
-                    end.WriteLine(($"{fio[i],10}\t{theoryAnswer[i],10}\t{theoryScore[i]}\t{practicalAnswer[i]}\t" +
-                        $"{practicalScore[i]}\t{ustavScore[i]}\t{overallScore[i]}"));
+                    end.WriteLine(($"{fio[i]}\t{appearance[i]}\t{withoutWeapon[i]} " +
+                        $"{elevenArray[i]}\t{withWeapon[i]}\t{ustavScore[i]}\t{overallScore[i]}"));
                 }
             }
 
