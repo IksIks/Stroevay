@@ -77,7 +77,7 @@ namespace Сторевая
         /// </summary>
         /// <param name="score">передаваемая оценка(среденее), для генерации группы оценок</param>
         /// <returns>массив с генерируемыми оценками исходя из принятого параметра SCORE</returns>
-        public static string[] generetanigPrakticalAnswers(int score, int column)
+        public static string[] generetanigPrakticalAnswers(int score)
         {
             string[] answers = new string[500];
             double[] values = { 5, 4, 3, 2 };
@@ -90,30 +90,7 @@ namespace Сторевая
                     {
                         for (int k = 0; k < values.Length - 1; k++)
                         {
-                            switch (column) //коичество столбцов
-                            {
-                                case 3:
-
-                                    if ((score == 5) && (Math.Round((values[i] + values[j] + values[k]) / 3) == score))
-                                    {
-                                        answers[next] = ($"{values[i]} {values[j]} {values[k]}").ToString();
-                                        //Console.WriteLine(answers[next]);
-                                        next++;
-                                    }
-                                    else
-                                    {
-                                        double average = (values[i] + values[j] + values[k]) / 3;
-                                        double averageMath = Math.Round((values[i] + values[j] + values[k]) / 3);
-                                        if (((averageMath - average) <= 0.3) && (averageMath == score))
-                                        {
-                                            answers[next] = ($"{values[i]} {values[j]} {values[k]}").ToString();
-                                            //Console.WriteLine($"{next}\t{answers[next]}");
-                                            next++;
-                                        }
-                                    }
-                                    break;
-
-                                case 5:
+                            
                                     for (int l = 0; l < values.Length - 1; l++)
                                     {
                                         for (int m = 0; m < values.Length - 1; m++)
@@ -128,9 +105,9 @@ namespace Сторевая
                                             }
                                         }
                                     }
-                                    break;
+                                   
 
-                            }
+                            
                         }
                     }
                 }
@@ -142,26 +119,13 @@ namespace Сторевая
                     {
                         for (int k = 1; k < values.Length; k++)
                         {
-                            switch (column)
-                            {
-                                case 3:
-                                    double average = (values[i] + values[j] + values[k]) / 3;
-                                    double averageMath = Math.Round((values[i] + values[j] + values[k]) / 3);
-                                    if (((averageMath - average) <= 0.3) && (averageMath == score))
-                                    {
-                                        answers[next] = ($"{values[i]} {values[j]} {values[k]}").ToString();
-                                        //Console.WriteLine($"{next}\t{answers[next]}\t{average}\tMath  {averageMath} ");
-                                        next++;
-                                    }
-                                    break;
-
-                                case 5:
+                            
                                     for (int l = 1; l < values.Length; l++)
                                     {
                                         for (int m = 1; m < values.Length; m++)
                                         {
-                                            average = (values[i] + values[j] + values[k] + values[l] + values[m]) / 5;
-                                            averageMath = Math.Round((values[i] + values[j] + values[k] + values[l] + values[m]) / 5);
+                                            double average = (values[i] + values[j] + values[k] + values[l] + values[m]) / 5;
+                                            double averageMath = Math.Round((values[i] + values[j] + values[k] + values[l] + values[m]) / 5);
                                             if (((averageMath - average) <= 0.3) && (averageMath == score))
                                             {
                                                 answers[next] = ($"{values[i]} {values[j]} {values[k]} {values[l]} {values[m]}").ToString();
@@ -169,7 +133,7 @@ namespace Сторевая
                                             }
                                         }
                                     }
-                                    break;
+                                   
 
                             }
                         }
