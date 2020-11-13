@@ -191,13 +191,22 @@ namespace Сторевая
             int[] three = fileScore[2].Split(pattern, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
             int[] two = fileScore[3].Split(pattern, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
             // vip - количество контрактников которым нельзя ставить "2"            
-            int[] vip = fileScore[4].Split(pattern, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
+            int vip = int.Parse(fileScore[4]);
             Random r = new Random();
 
             int random = 0;
             string[] fio = File.ReadAllLines("ФИО.txt");
             int[] temp = new int[fio.Length];
-            int[] overallScore = fillingArray(five, fillingArray(four, fillingArray(three, fillingArray(two, temp, (vip[0])), (vip[0]))));
+            int[] overallScore = fillingArray(five, fillingArray(four, fillingArray(three, fillingArray(two, temp, vip), vip)));
+
+            string[] ustavScore = new string[fio.Length];
+            for (int i = 0; i < ustavScore.Length; i++)
+            {
+                if (overallScore[i] == 2)
+                    ustavScore[i] = "неуд";
+                else ustavScore[i] = "уд";
+            }
+
             int[] practicalScore = new int[fio.Length];
             Array.Copy(overallScore, practicalScore, fio.Length);
 
@@ -259,7 +268,7 @@ namespace Сторевая
             score2 = generetanigPrakticalAnswers(2, 5);
 
             string[] theoryAnswer = new string[fio.Length];
-            for (int i = 0; i < practicalAnswer.Length; i++)
+            for (int i = 0; i < theoryAnswer.Length; i++)
             {
                 switch (theoryScore[i])
                 {
@@ -286,10 +295,12 @@ namespace Сторевая
             //Console.WriteLine("ФИО                   итог за теорию    оценки за практику    итог практика   итоговая");
             using (StreamWriter end = new StreamWriter("ведомость.txt"))
             {
-                end.WriteLine("Звание\tФамилия\tТеоритическая подготовка\tОценка\tПрактическая подготовка\tОценка\tОбщая оценка");
+                end.WriteLine("Звание\tФамилия\tТеоритическая подготовка\tОценка\tПрактическая подготовка\tОценка\t" +
+                    "Строевой устав\tОбщая оценка");
                 for (int i = 0; i < fio.Length; i++)
                 {
-                    end.WriteLine(($"{fio[i],10}\t{theoryAnswer[i],10}\t{theoryScore[i]}\t{practicalAnswer[i]}\t{practicalScore[i]}\t{overallScore[i]}"));
+                    end.WriteLine(($"{fio[i],10}\t{theoryAnswer[i],10}\t{theoryScore[i]}\t{practicalAnswer[i]}\t" +
+                        $"{practicalScore[i]}\t{ustavScore[i]}\t{overallScore[i]}"));
                 }
             }
 
