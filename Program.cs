@@ -25,7 +25,7 @@ namespace Сторевая
         public static int[] fillingArray(int[] scoreAndNumber, int[] array, int vip = 0)
         {
             int symbol = scoreAndNumber[0];
-            int numberOfSymbol = scoreAndNumber[1];
+            int numberOfSymbol = scoreAndNumber[1];               
             if (scoreAndNumber.Length > 2 && symbol == 2)
             {
                 for (int i = 2; i < scoreAndNumber.Length; i++)
@@ -35,7 +35,7 @@ namespace Сторевая
                 }
             }
             else
-            {
+            {               
                 int execute = 0;        //число которое будет исключаться из списка после присвоения
                 for (int i = 0; i < numberOfSymbol; i++)
                 {
