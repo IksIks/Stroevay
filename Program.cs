@@ -35,7 +35,7 @@ namespace Сторевая
                 }
             }
             else
-            {                
+            {               
                 int execute = 0;        //число которое будет исключаться из списка после присвоения
                 for (int i = 0; i < numberOfSymbol; i++)
                 {
